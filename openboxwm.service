@@ -1,0 +1,8 @@
+
+[Unit]
+Description=Openbox Window Manager
+After=dbus.socket
+
+[Service]
+ExecStart=/usr/bin/openbox
+
