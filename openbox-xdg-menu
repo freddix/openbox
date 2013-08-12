@@ -47,13 +47,16 @@ def icon_attr(entry):
 	iconinfo = theme.lookup_icon(name, 22, Gtk.IconLookupFlags.NO_SVG)
 	if iconinfo:
 		iconfile = iconinfo.get_filename()
-		iconinfo.free()
+		if hasattr(iconinfo, 'free'):
+			iconinfo.free()
 		if iconfile:
 			return ' icon="' + iconfile + '"'
 	return ''
 
 def escape_utf8(s):
-	return escape(s.encode('utf-8', 'xmlcharrefreplace'))
+	if isinstance(s, unicode):
+		s = s.encode('utf-8', 'xmlcharrefreplace')
+	return escape(s)
 
 def entry_name(entry):
 	return escape_utf8(entry.getName())
@@ -67,14 +70,15 @@ def walk_menu(entry):
 		map(walk_menu, entry.getEntries())
 		print '</menu>'
 	elif isinstance(entry, xdg.Menu.MenuEntry) and entry.Show is True:
-		print '	<item label="%s"%s>' % \
-			(entry_name(entry.DesktopEntry).replace('"', ''),
+		name = entry_name(entry.DesktopEntry)
+		print '	<item label="%s"%s>' % (name.replace('"', ''),
 			escape_utf8(icon_attr(entry.DesktopEntry)))
-		command = re.sub(' -caption "%c"| -caption %c', ' -caption "%s"' % entry_name(entry.DesktopEntry), entry.DesktopEntry.getExec())
+		command = re.sub(' -caption "%c"| -caption %c',
+			' -caption "%s"' % name,
+			escape_utf8(entry.DesktopEntry.getExec()))
 		command = re.sub(' [^ ]*%[fFuUdDnNickvm]', '', command)
 		if entry.DesktopEntry.getTerminal():
-			command = 'xterm -title "%s" -e %s' % \
-				(entry_name(entry.DesktopEntry), command)
+			command = 'xterm -title "%s" -e %s' % (name, command)
 		print '		<action name="Execute">' + \
 			'<command>%s</command></action>' % command
 		print '	</item>'

@@ -2,13 +2,13 @@
 
 Summary:	Small and fast window manger for the X Window
 Name:		openbox
-Version:	3.5.0
-Release:	16
+Version:	3.5.2
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		X11/Window Managers
 Source0:	http://icculus.org/openbox/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	00441b53cf14c03566c8e82643544ff9
+# Source0-md5:	93df606606053b7e8578a5c116afb8ec
 Source1:	%{name}.desktop
 Source2:	%{name}-autostart.sh
 Source3:	%{name}-default-menu.xml
@@ -19,10 +19,7 @@ Source10:	%{name}.target
 Source11:	%{name}wm.service
 #
 Patch0:		%{name}-freddix.patch
-Patch1:		%{name}-libs.patch
-Patch2:		%{name}-doubleclick.patch
-Patch3:		%{name}-Fix-crash-on-NET_WM_MOVERESIZE_CANCEL.patch
-Patch4:		%{name}-title-matching.patch
+Patch1:		%{name}-title-matching.patch
 URL:		http://openbox.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -92,9 +89,6 @@ Includes:
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
 %{__autopoint}
