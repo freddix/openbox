@@ -27,6 +27,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	gettext-autopoint
 BuildRequires:	imlib2-devel
+BuildRequires:	librsvg-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	pango-devel
